@@ -1,10 +1,13 @@
 /** Gère l'affichage de la page d'accueil **/
 
+"use strict"; // pour limiter les erreurs dans le code 
+
+/**
 fetch("http://localhost:5678/api/works")
   .then(response => {
     if (response.ok) return response.json();
   })
-  .then((data) => { /* affichage des projets avec le create element sur le dom */ 
+  .then((data) => { /* affichage des projets avec le create element sur le dom
     listProjet = data;
     displayProjects(listProjet);
     displayEdit();
@@ -26,4 +29,13 @@ fetch("http://localhost:5678/api/works")
   })
   .catch((error) => {
     alert("Une erreur est survenue! Veuillez contacter l'administrateur!");
+  }); */ 
+
+  fetch("http://localhost:5678/api-docs/#/")
+  .then( data => data.json())
+  .then( jsonListProjets => {
+    for(le jsonProjets orof jsonListProjets){
+      let projets = new 
+    )
   });
+
