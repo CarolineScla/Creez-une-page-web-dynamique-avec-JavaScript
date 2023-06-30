@@ -23,11 +23,13 @@
 		  </ul>
 		</nav>
 	</div>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-	<nav>
+	<a href="index.html">
+		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+	  </a>
+		  <nav>
 		<ul>
-			<li>projets</li>
-			<li>contact</li>
+			<li><a href="#portfolio" class="portfolio">projets</a></li>
+			<li><a href="#contact">contact</a></li>		
 			<li><a class="login" href="./login.html">login</a></li>
 			<li><a class="loginOk logout" href="#" id="logout">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
@@ -51,14 +53,16 @@
 		</article>
 		
 	</section>
-	<section class="portfolio" id="portfolio">
-		<div class="projetsTitle">
-			<h2>Mes Projets</h2>
-			<a href="#" id="modifierProjets" class="modalContent modeEdition">
+	<section id="portfolio">
+		<div class="projetsContainer">
+			<div class="projetsTitle">
+			  <h2>Mes Projets</h2>
+			  <a href="#" id="modifierProjets" class="modalContent modeEdition">
 				<i class="fa-regular fa-pen-to-square"></i> modifier
-			</a>			
-			
-		</div>
+			  </a>
+			</div>
+		  </div>
+		  
 		<!-- Fenetre modale 1 -->
 		<aside class="fenetres">
 		<div id="modal1" class="modalContent galerie" aria-modal="true" aria-hidden="true" role="dialog" aria-label="titlemodal">
@@ -68,7 +72,7 @@
 					<div class="galleryPhoto">
 					<h2>Galerie photo</h2>
 					<div class="modalGalerie"></div>
-					<hr> <!-- représenter une ligne horizontale-->
+					<hr> <!-- ligne horizontale-->
 					<div class="modalBoutton">
 					<button id="ajoutImage">Ajouter une photo</button>
 					<button id="supprimerGalerie">Supprimer la galerie</button>
@@ -98,16 +102,19 @@
 						<label for="titrePhoto">Titre</label>
 						<span id="titleErrorMessage" class="error"></span>
 						<input id="titrePhoto" type="text" name="titrePhoto" placeholder="">
-						<span for="categoryId">Catégorie</span>
+						<span for="categorie">Catégorie</span>
 						<form class="formCategory">
-						  <select name="categoryId" id="categoryId">
-							<option id="categoryId" value="1">Objet</option>
-							<option id="categoryId" value="2">Appartement</option>
-							<option id="categoryId" value="3">Hôtels &amp; restaurants</option>
+						  <select name="categoryIdSelect" id="categoryId">
+							<option></option>
+							<option value="1">Objet</option>
+							<option value="2">Appartement</option>
+							<option value="3">Hôtels &amp; restaurants</option>
 						  </select>
 						  <hr>
-						<button type="submit" value="valider" id="saveButton" autocomplete="off"></button>							
+
 						</form>
+						<button type="submit" value="valider" id="saveButton" autocomplete="off">Valider</button>							
+
 					  </div>
 					</div>
 				  </div>

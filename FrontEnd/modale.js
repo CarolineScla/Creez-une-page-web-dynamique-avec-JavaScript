@@ -45,6 +45,7 @@ const openModal = function (e) {
 
   // Appel de la fonction pour ajouter les éléments à la fenêtre modale
   getProjectModal();
+  modifierProjetsModal();
 };
 
 // Fonction pour ouvrir la fenêtre modale d'ajout de photo
@@ -64,7 +65,6 @@ const openAddModal = function (e) {
     modal1.style.display = 'flex';
     modal3.style.display = 'none';
   });
-
   addProjectToModal();
 };
 
@@ -111,8 +111,8 @@ function modifierProjetsModal(project) {
     })
       .then(function (response) {
         if (response.ok) {
-
           figure.remove(); // Supprime l'élément de la galerie visuellement
+          console.log('Supprimé !');
         } else {
           console.error('Erreur lors de la suppression');
         }
@@ -128,27 +128,44 @@ function modifierProjetsModal(project) {
 
 function addProjectToModal() {
   const ajoutPhotoBtn = document.getElementById('ajoutPhotoBtn');
-  const selectedImage = document.getElementById('selectedImage');
-  const imageRemplace = document.querySelector('.imageRemplace');
   const title = document.getElementById('titrePhoto').value;
   const selectCategorie = document.getElementById('categoryId');
   const category = selectCategorie.value;
-  const imageUrl = selectedImage.src; // Récupère le chemin de l'image existante
 
-  // Événement pour mettre à jour l'image sélectionnée lorsqu'un fichier est choisi
-  ajoutPhotoBtn.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    const reader = new FileReader();
+// Événement pour mettre à jour l'image sélectionnée lorsqu'une image est choisie
+ajoutPhotoBtn.addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  const reader = new FileReader();
 
-    reader.onload = function(event) {
-      selectedImage.src = event.target.result;
-    };
-    
+  reader.onload = function(event) {
+    const selectedImage = document.getElementById('selectedImage');
+    selectedImage.src = event.target.result;
+    selectedImage.style.display = 'block';
 
-    if (file) {
-      reader.readAsDataURL(file);
+    const ajoutPhotoIcon = document.getElementById('ajoutPhotoIcon');
+    ajoutPhotoIcon.style.display = 'none';
+
+    const ajoutPhotoLabel = document.getElementById('ajoutPhotoLabel');
+    ajoutPhotoLabel.style.display = 'none';
+    const type = document.getElementById('type');
+    type.style.display = 'none';
+    selectedImage.width = 500; // largeur de l'image affichée
+  };
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+});
+
+  // Vérification des champs avant l'envoi de la requête
+  const saveButton = document.querySelector('#saveButton');
+  saveButton.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    // Vérifier si tous les champs sont renseignés
+    if (title.trim() === '' || category.trim() === '' || ajoutPhotoBtn.files.length === 0) {
+      console.log("Veuillez remplir tous les champs.");
+      return;
     }
-  });
   
     const formData = new FormData;
     formData.append('image', ajoutPhotoBtn.files[0]);
@@ -170,15 +187,25 @@ function addProjectToModal() {
         console.log("Erreur lors de l'ajout du projet");
       }
     })
-      .then(function(data) {
-          // Utilise les données renvoyées dans la réponse JSON
-          console.log("Données du projet ajouté :", data);      
+    .then(function(data) {
+      console.log("Données du projet ajouté :", data);   
          })
-      .catch(function(error) {
-        console.error("Erreur lors de l'ajout du projet", error);
+    .catch(function() {
+        console.error("Erreur lors de l'ajout du projet");
       });
-  };
-  
+  })
+  // Pour changer la couleur de Valider lors de l'ajout d'une photo 
+ajoutPhotoBtn.addEventListener('change', function() {
+  // Vérifier si un fichier a été sélectionné
+  if (ajoutPhotoBtn.files.length > 0) {
+    // Appliquer la couleur de fond au bouton saveButton
+    saveButton.style.backgroundColor = '#1D6154';
+  } else {
+    // Réinitialiser la couleur de fond du bouton saveButton
+    saveButton.style.backgroundColor = '';
+  }
+});
+}
 // Événement pour sauvegarder l'ajout de la photo au clic sur le bouton "Valider"
 const saveButton = document.querySelector('#saveButton');
 saveButton.addEventListener('click', addProjectToModal);
