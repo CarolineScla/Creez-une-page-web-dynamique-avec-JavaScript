@@ -5,12 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
 const loginOk = document.querySelector('#submit');
 if (loginOk) {
 loginOk.addEventListener('click', async (event) => {
-  event.preventDefault(); // Empêche le rechargement de la page
+  event.preventDefault(); // Empêche le rechargement de la page pour traiter toute la fonction 
   // Récupération des valeurs des champs email et mot de passe
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
-  // Envoi des données au serveur
+  // Envoi des données au serveur + Async pour attendre la réponse de la requête fetch 
   try {
     const response = await fetch('http://localhost:5678/api/users/login', {
       method: 'POST',
@@ -37,7 +37,7 @@ loginOk.addEventListener('click', async (event) => {
       });
     }
     else {
-      let errorMsg = document.getElementById('error-message');
+      let errorMsg = document.getElementById('error-message'); // Si connexion n'est pas correcte alors message d'erreur 
       errorMsg.textContent = '! Erreur lors de la connexion !';
     }
   } catch (error) {

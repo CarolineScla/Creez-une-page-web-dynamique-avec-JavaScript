@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
     isLoggedInList.forEach(inList => {
       inList.style.display = 'block';
     });
+     // Appliquer display: flex à l'élément .projetsTitle
+     const projetsTitleElement = document.querySelector('.projetsTitle');
+     projetsTitleElement.style.display = 'flex';
 
   } else {
     // Cacher éléments de logout 
@@ -24,19 +27,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Récupérer les projets
 function getProjectModal() {
+  // Effectuer une requête pour récupérer les projets depuis l'API
   fetch("http://localhost:5678/api/works")
     .then(function (response) {
-      return response.json();
-    }).then(function (projects) {
+      return response.json(); // Convertir la réponse en JSON
+    })
+    .then(function (projects) {
+      // Une fois que les projets sont récupérés avec succès
       const modalGalerie = document.querySelector(".modalGalerie");
-      modalGalerie.innerHTML = '';
+      modalGalerie.innerHTML = ''; // Réinitialiser le contenu de la galerie modale
+      // Parcourir chaque projet récupéré
       projects.forEach(function (project) {
-        modifierProjetsModal(project);
+        modifierProjetsModal(project); // Appeler la fonction pour modifier la galerie modale avec chaque projet
       });
     });
 }
 
-// Fonction pour ouvrir la fenêtre modale
+// Fonction pour ouvrir et afficher la fenêtre modale 1
 const openModal = function (e) {
   e.preventDefault();
   const target = document.getElementById('modal1');
@@ -50,7 +57,7 @@ const openModal = function (e) {
 
 // Fonction pour ouvrir la fenêtre modale d'ajout de photo
 const openAddModal = function (e) {
-  e.preventDefault();
+  e.preventDefault();// Empêche le rechargement -comportement par défaut du bouton 
   const addModal = document.getElementById('modal3');
   modal1.style.display = 'none';  // pour cacher modal1 
   addModal.style.display = 'flex';
@@ -71,59 +78,59 @@ const openAddModal = function (e) {
 
 function modifierProjetsModal(project) {
   const modalGalerie = document.querySelector(".modalGalerie");
+  // Création des éléments pour afficher le projet
+  const figure = document.createElement("figure"); // Crée un élément de type "figure" pour contenir les informations du projet
+  figure.classList.add("figureModal"); // Ajoute la classe "figureModal" à la figure
 
-  const figure = document.createElement("figure");
-  figure.classList.add("figureModal");
+  const img = document.createElement("img"); // Crée un élément "img" pour afficher l'image du projet
+  img.src = project.imageUrl; // Définit l'URL de l'image du projet
+  img.width = 100; // Définit la largeur de l'image
 
-  const img = document.createElement("img");
-  img.src = project.imageUrl;
-  img.width = 100;
+  const figcaption = document.createElement("figcaption"); // Crée un élément "figcaption" pour afficher le titre du projet
+  figcaption.classList.add("figCaption"); // Ajoute la classe "figCaption" au figcaption
+  figcaption.alt = project.title; // Définit le texte alternatif de l'image (utilisé pour l'accessibilité)
+  figcaption.textContent = "éditer"; // Définit le texte "éditer" pour le figcaption
 
-  const figcaption = document.createElement("figcaption");
-  figcaption.classList.add("figCaption");
-  figcaption.alt = project.title;
-  figcaption.textContent = "éditer";
+  const categoryId = document.createElement("p"); // Crée un élément "p" pour afficher l'ID de la catégorie du projet
+  categoryId.src = project.categoryId; // Définit l'ID de la catégorie du projet (peut-être incorrect, car on utilise "src" pour un élément "p")
 
-  const categoryId = document.createElement("p");
-  categoryId.src = project.categoryId;
-
-  const deleteWork = document.createElement("i");
-  deleteWork.classList.add("deleteTrashIcon", "fa", "fa-solid", "fa-trash-can");
-  deleteWork.dataset.id = project.id;
+  const deleteWork = document.createElement("i"); // Crée un élément de type "i" (icône) pour représenter l'icône de suppression (poubelle)
+  deleteWork.classList.add("deleteTrashIcon", "fa", "fa-solid", "fa-trash-can"); // Ajoute les classes nécessaires pour afficher l'icône
+  deleteWork.dataset.id = project.id; // Stocke l'ID du projet en utilisant l'attribut "data-id"
 
   // Evénement pour la suppression
   deleteWork.addEventListener('click', function () {
-    const token = sessionStorage.getItem("token");
+    const token = sessionStorage.getItem("token"); // Récupère le token d'authentification depuis le sessionStorage
     if (!token) {
-      console.error("Token non trouvé.");
+      console.error("Token non trouvé."); // Affiche une erreur si le token n'est pas trouvé
       return;
     }
-
-    const id = deleteWork.dataset.id;
-    const url = `http://localhost:5678/api/works/${id}`;
+    const id = deleteWork.dataset.id; // Récupère l'ID du projet à supprimer à partir de l'attribut "data-id" de l'icône
+    const url = `http://localhost:5678/api/works/${id}`; // Construit l'URL pour l'API de suppression du projet
 
     fetch(url, {
-      method: 'DELETE',
+      method: 'DELETE', // Utilise la méthode DELETE pour supprimer le projet
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`, // Inclut le token d'authentification dans les en-têtes de la requête
       },
     })
       .then(function (response) {
         if (response.ok) {
-          figure.remove(); // Supprime l'élément de la galerie visuellement
-          console.log('Supprimé !');
+          figure.remove(); // Supprime l'élément de la galerie 
+          console.log('Supprimé !'); // Affiche un message de confirmation dans la console
         } else {
-          console.error('Erreur lors de la suppression');
+          console.error('Erreur lors de la suppression'); // Affiche une erreur si la suppression échoue
         }
       })
       .catch(function (error) {
-        console.error('Erreur lors de la suppression', error);
+        console.error('Erreur lors de la suppression', error); // Affiche une erreur en cas d'erreur lors de la suppression
       });
   });
 
+  // Ajoute les éléments créés à la figure
   figure.append(img, figcaption, categoryId, deleteWork);
-  modalGalerie.append(figure);
+  modalGalerie.append(figure); // Ajoute la figure à la galerie modale 1
 }
 
 function addProjectToModal() {
@@ -159,35 +166,36 @@ ajoutPhotoBtn.addEventListener('change', function(e) {
   // Vérification des champs avant l'envoi de la requête
   const saveButton = document.querySelector('#saveButton');
   saveButton.addEventListener('click', function(e) {
-    e.preventDefault();
+    e.preventDefault(); 
 
     // Vérifier si tous les champs sont renseignés
     if (title.trim() === '' || category.trim() === '' || ajoutPhotoBtn.files.length === 0) {
       console.log("Veuillez remplir tous les champs.");
       return;
     }
-  
+    // Créer un objet FormData pour envoyer les données du formulaire
     const formData = new FormData;
     formData.append('image', ajoutPhotoBtn.files[0]);
     formData.append('title', title);
     formData.append('category', category);
 
+     // Envoi de la requête pour ajouter le projet
     fetch("http://localhost:5678/api/works", {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`, // Vérifie la présence du token 
       },
-      body: formData,
+      body: formData, // Formulaire avec les éléments demandés par l'API 
     })
     .then(function(response) {
-      if (response.ok) {
+      if (response.ok) {  // Renvoie la réponse sous forme de JSON pour obtenir les données renvoyées par le serveur
         return response.json();
-      } else {
+      } else { // Sinon message d'erreur 
         console.log("Erreur lors de l'ajout du projet");
       }
     })
-    .then(function(data) {
+    .then(function(data) { // La deuxième étape lorsque la première promesse (response.json()) est résolue avec succès
       console.log("Données du projet ajouté :", data);   
          })
     .catch(function() {

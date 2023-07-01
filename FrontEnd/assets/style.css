@@ -138,12 +138,8 @@
 		display: flex;
 		justify-content: center;
 	  }
-	  
-	  .projetsTitle {
-		display: flex;
-	  }
-	  
-	  #modifierProjets {
+	  	  
+	#modifierProjets {
 		text-decoration: none;
 		color: black;
 		margin: 12px 0 0 15px;
@@ -318,8 +314,10 @@
 	/** Footer **/
 
 	footer {
-		width: 100%;
-		background-color: white;
+  bottom: 0;
+  left: 0;
+  width: 100%;		
+  background-color: white;
 	}
 	
 	footer nav {
@@ -334,9 +332,6 @@
 		background-color: white ;
 	}
 
-	footer[href="./login.html"] {
-		position: absolute;
-	}
 	/** Création de la fenêtre modale **/
 	/* Barre noire du mode édition */
 	.modalContent {
@@ -468,17 +463,18 @@
 		padding: 50px;
 		position: absolute;
 		border-radius: 20px;
+		background-color: #ffffff;
 	}
 
 button .closeModal {
 		display: flex;
 		justify-content: flex-end;
 		border: none;
-
+		background-color: #ffffff;
 	}
 
 .closeModal {
-	background-color: #FFFEF8;
+	background-color: #ffffff;
 	border: none;
 	float: right;
 	font-size: 25px;
@@ -491,14 +487,19 @@ button .closeModal {
 	font-weight: 400;
 	font-size: 26px;
 	margin: 3%;
+	background-color: #ffffff;
+
   }
   
   .galleryPhoto {
 	padding: 1em;
+	background-color: #ffffff;
+
   }
 
  .ajoutPhotosContainer {
     margin: 0 10% 10% 10%;
+	background-color: #ffffff;
   }
 
   #imgContainer {
@@ -506,16 +507,21 @@ button .closeModal {
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	background-color: #E8F1F6;
     border-radius: 5px;
 	padding: 0;
+	background-color: #ffffff;
 }
 
+.figCaption{
+	background-color: #ffffff;
+}
 .imageRemplace {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	background-color: #E8F1F6;
+	width: 100%;
+	height: auto;
 }
 
 #ajoutPhotoIcon {
@@ -535,16 +541,21 @@ button .closeModal {
 	display: flex;
 	justify-content: space-between;
 	flex-direction: column;
+	background-color: #ffffff;
+    margin-top: 20px;
 }
 
 span[for="categorie"],
 label[for="titrePhoto"] {
 	margin: 10px 0;
+	background-color: #ffffff;
 }
 
 #titrePhoto,
 #categoryId {
-	height: 30px;
+	height: 40px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
   
 button#saveButton {
@@ -615,6 +626,7 @@ button#saveButton {
 	row-gap: 20px;
 	justify-content: start;
 	gap: 10px;
+	background-color: #ffffff;
   }
 
 
@@ -628,6 +640,8 @@ button#saveButton {
 	flex-direction: column;
 	align-items: center;
 	margin-top: 30px;
+	background-color: #ffffff;
+
 	}
 	
 #ajoutImage {
@@ -662,4 +676,8 @@ button#saveButton {
 	max-width: 40%;
 	max-height: 40%;
 	display: none;
+  }
+
+  .formCategory {
+	background-color: #ffffff;
   }
