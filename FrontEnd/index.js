@@ -45,7 +45,7 @@ function traitementCategories(categories) {
   btnAll.textContent = 'Tous';
   divBoutons.appendChild(btnAll);
 
-  // Créer les boutons de catégorieslogout
+  // Créer les boutons de catégorie
   categories.forEach(categorie => {
     const button = document.createElement('button');
     button.textContent = categorie.name;
@@ -61,13 +61,13 @@ const utilisateurConnecte = token !== null && token !== ''; // vérifie si prés
 if (utilisateurConnecte) {
   divBoutons.style.display = 'none';
 } else {
-  divPortfolio.querySelector('h2').insertAdjacentElement('afterend', divBoutons);
+  divPortfolio.querySelector('h2').insertAdjacentElement('afterend', divBoutons); //insère l'élément divBoutons juste après l'élément <h2>
 }
 
   // Evénement au clic sur les boutons
   divBoutons.querySelectorAll('button').forEach(button => {
     button.addEventListener('click', function () {
-      const id = this.id;
+      const id = this.id; //récupère l'ID du bouton
       document.querySelectorAll('.gallery img').forEach(image => {
         if (image.getAttribute('category') === id) {
           // Si l'image a la catégorie correspondante, l'afficher
@@ -99,4 +99,17 @@ function boutonsFilres() {
 }
 
 
+
+
+// Fonction de déconnexion
+function logout() {
+  // Supprimer le token du stockage de session
+  sessionStorage.removeItem('token');
+  // Redirection vers la page de connexion
+  window.location.href = 'index.html';
+}
+
+// Gestionnaire d'événement pour le bouton de déconnexion
+const logoutButton = document.getElementById('logout');
+logoutButton.addEventListener('click', logout);
 

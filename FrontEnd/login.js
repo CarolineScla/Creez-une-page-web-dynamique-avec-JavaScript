@@ -31,32 +31,15 @@ loginOk.addEventListener('click', async (event) => {
       // Redirection vers la page d'accueil
       window.location.href = 'index.html';
       // Après l'authentification réussie, afficher le contenu d'édition
-      const modalElements = document.querySelectorAll('.modeEdition');
-      modalElements.forEach((element) => {
-        element.classList.add('show');
-      });
     }
     else {
       let errorMsg = document.getElementById('error-message'); // Si connexion n'est pas correcte alors message d'erreur 
-      errorMsg.textContent = '! Erreur lors de la connexion !';
+      errorMsg.textContent = 'Erreur dans l’identifiant ou le mot de passe';
     }
   } catch (error) {
-    console.error('Erreur lors de la connexion', error);
+    console.error('Erreur dans l’identifiant ou le mot de passe', error);
   }
   
 });
 }
 });
-
-// Fonction de déconnexion
-function logout() {
-  // Supprimer le token du stockage de session
-  sessionStorage.removeItem('token');
-  // Redirection vers la page de connexion
-  window.location.href = 'index.html';
-}
-
-// Gestionnaire d'événement pour le bouton de déconnexion
-const logoutButton = document.getElementById('logout');
-logoutButton.addEventListener('click', logout);
-

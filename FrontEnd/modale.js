@@ -83,8 +83,10 @@ function modifierProjetsModal(project) {
   figure.classList.add("figureModal"); // Ajoute la classe "figureModal" à la figure
 
   const img = document.createElement("img"); // Crée un élément "img" pour afficher l'image du projet
-  img.src = project.imageUrl; // Définit l'URL de l'image du projet
-  img.width = 100; // Définit la largeur de l'image
+  if (project && project.imageUrl) {
+    img.src = project.imageUrl;
+    img.width = 100;
+  } 
 
   const figcaption = document.createElement("figcaption"); // Crée un élément "figcaption" pour afficher le titre du projet
   figcaption.classList.add("figCaption"); // Ajoute la classe "figCaption" au figcaption
@@ -170,7 +172,7 @@ ajoutPhotoBtn.addEventListener('change', function(e) {
 
     // Vérifier si tous les champs sont renseignés
     if (title.trim() === '' || category.trim() === '' || ajoutPhotoBtn.files.length === 0) {
-      console.log("Veuillez remplir tous les champs.");
+      document.querySelector('#errorMessage').textContent = "Veuillez remplir tous les champs.";
       return;
     }
     // Créer un objet FormData pour envoyer les données du formulaire
@@ -192,15 +194,16 @@ ajoutPhotoBtn.addEventListener('change', function(e) {
       if (response.ok) {  // Renvoie la réponse sous forme de JSON pour obtenir les données renvoyées par le serveur
         return response.json();
       } else { // Sinon message d'erreur 
-        console.log("Erreur lors de l'ajout du projet");
+        throw new Error("Erreur lors de l'ajout du projet");
       }
     })
     .then(function(data) { // La deuxième étape lorsque la première promesse (response.json()) est résolue avec succès
       console.log("Données du projet ajouté :", data);   
          })
-    .catch(function() {
-        console.error("Erreur lors de l'ajout du projet");
-      });
+         .catch(function(error) {
+          console.error(error.message);
+          document.querySelector('#errorMessage').textContent = error.message;
+        });
   })
   // Pour changer la couleur de Valider lors de l'ajout d'une photo 
 ajoutPhotoBtn.addEventListener('change', function() {
